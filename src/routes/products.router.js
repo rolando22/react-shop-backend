@@ -18,7 +18,9 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     const { id } = req.params;
 
-    res.json({
+    if (id === '999') 
+        return res.status(404).json({ message: 'not found' });
+    res.status(200).json({
         id: id,
         name: 'Product 1',
         price: 1000,
@@ -28,7 +30,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const body = req.body;
 
-    res.send({
+    res.status(201).send({
         message: 'created',
         data: body,
     });
