@@ -17,10 +17,20 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const { id } = req.params;
+
     res.json({
         id: id,
         name: 'Product 1',
         price: 1000,
+    });
+});
+
+router.post('/', (req, res) => {
+    const body = req.body;
+
+    res.send({
+        message: 'created',
+        data: body,
     });
 });
 
