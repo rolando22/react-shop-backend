@@ -9,13 +9,17 @@ router.get('/', async (req, res) => {
     res.status(200).json({ data: products });
 });
 
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-    const product = await service.findOne(id);
-
-    product 
-        ? res.status(200).json({ data: product })
-        : res.status(404).json({ message: 'not found' });
+router.get('/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const product = await service.findOne(id);
+    
+        product 
+            ? res.status(200).json({ data: product })
+            : res.status(404).json({ message: 'not found' });
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.post('/', async (req, res) => {
