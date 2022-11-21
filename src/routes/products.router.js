@@ -13,10 +13,8 @@ router.get('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const product = await service.findOne(id);
-    
-        product 
-            ? res.status(200).json({ data: product })
-            : res.status(404).json({ message: 'not found' });
+
+        res.status(200).json({ data: product });
     } catch (error) {
         next(error);
     }
@@ -31,7 +29,7 @@ router.post('/', async (req, res) => {
     });
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
     try {
         const { body, params: { id } } = req;
         const editProduct = await service.update(id, body);
@@ -42,12 +40,12 @@ router.patch('/:id', async (req, res) => {
             id,
         });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        next(error);
     }
 
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const idDeletedProduct = await service.delete(id);
@@ -57,7 +55,7 @@ router.delete('/:id', async (req, res) => {
             id: idDeletedProduct,
         });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        next(error);
     }
 });
 
