@@ -1,4 +1,5 @@
-const { Pool } = require('pg');
+const { Sequelize } = require('sequelize');
+
 const { config: 
     { 
         dbUser,
@@ -13,6 +14,9 @@ const USER = encodeURIComponent(dbUser);
 const PASSWORD = encodeURIComponent(dbPassword);
 const URI = `postgres://${USER}:${PASSWORD}@${dbHost}:${dbPort}/${dbName}`;
 
-const pool = new Pool({ connectionString: URI });
+const sequelize = new Sequelize(URI, {
+    dialect: 'postgres',
+    logging: console.log,
+});
 
-module.exports = pool;
+module.exports = sequelize;
