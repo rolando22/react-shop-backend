@@ -6,9 +6,12 @@ class ProductService {
 
     constructor () {}
 
-    async find () {
+    async find (query) {
+        const { limit, offset } = query;
         const products = await models.Product.findAll({
             include: ['category'],
+            limit,
+            offset,
         });
         return products;
     }
