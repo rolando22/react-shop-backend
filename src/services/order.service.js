@@ -1,6 +1,9 @@
 const boom = require('@hapi/boom');
 
 const { models } = require('../libs/sequelize');
+const ProductService = require('./product.service');
+
+const productService = new ProductService();
 
 class OrderService {
     constructor () {}
@@ -12,10 +15,13 @@ class OrderService {
 
     async findOne (id) {
         const order = await models.Order.findByPk(id, { 
-            include: [{
-                association: 'customer',
-                include: ['user'],
-            }] ,
+            include: [
+                {
+                    association: 'customer',
+                    include: ['user'],
+                },
+                'items',
+            ],
         });
         if (!order) throw boom.notFound('not found');
         return order;
@@ -36,6 +42,13 @@ class OrderService {
         const order = await this.findOne(id);
         await order.destroy();
         return id;
+    }
+
+    async addItem (data) {
+        await this.findOne(data.orderId);
+        await productService.findOne(data.productId);
+        const newItem = await models.OrderProduct.create(data);
+        return newItem;
     }
 }
 
