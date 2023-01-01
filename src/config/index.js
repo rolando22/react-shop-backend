@@ -8,6 +8,7 @@ const config = {
     dbHost: process.env.PG_HOST,
     dbName: process.env.PG_DATABASE,
     dbPort: process.env.PG_PORT,
+    apiKey: process.env.API_KEY,
 };
 
 module.exports = { config };
