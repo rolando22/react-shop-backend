@@ -7,19 +7,27 @@ class UserService {
 
     async find () {
         const users = await models.User.findAll({
-            include: ['customer']
+            attributes: {
+                exclude: ['password'],
+            },
+            include: ['customer'],
         });
         return users;
     }
 
     async findOne (id) {
-        const user = await models.User.findByPk(id);
+        const user = await models.User.findByPk(id, {
+            attributes: {
+                exclude: ['password'],
+            },
+        });
         if (!user) throw boom.notFound('user not found');
         return user;
     }
 
     async create (data) {
         const newUser = await models.User.create(data);
+        delete newUser.dataValues.password;
         return newUser;
     }
 

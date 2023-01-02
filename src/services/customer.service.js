@@ -7,13 +7,20 @@ class CustomerService {
 
     async find () {
         const customers = await models.Customer.findAll({ 
+            attributes: {
+                exclude: ['password'],
+            },
             include: ['user'], 
         });
         return customers;
     }
 
     async findOne (id) {
-        const customer = await models.Customer.findByPk(id);
+        const customer = await models.Customer.findByPk(id, {
+            attributes: {
+                exclude: ['password'],
+            },
+        });
         if (!customer) throw boom.notFound('customer not found');
         return customer;
     }
@@ -22,6 +29,7 @@ class CustomerService {
         const newCustomer = await models.Customer.create(data, {
             include: ['user'],
         });
+        delete newCustomer.user.dataValues.password;
         return newCustomer;
     }
 
