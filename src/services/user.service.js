@@ -25,6 +25,13 @@ class UserService {
         return user;
     }
 
+    async findByEmail (email) {
+        const user = await models.User.findOne({
+            where: { email },
+        });
+        return user;
+    }
+
     async create (data) {
         const newUser = await models.User.create(data);
         delete newUser.dataValues.password;

@@ -4,6 +4,7 @@ const cors = require('cors');
 const routerApi = require('./routes');
 const { logErrors, ormErrorHandler, boomErrorHandler, errorHandler } = require('./middlewares/error.handler');
 const { checkApiKey } = require('./middlewares/auth.handler');
+require('./utils/auth');
 
 const app = express();
 const port = process.env.PORT || 3001;
