@@ -9,6 +9,7 @@ const config = {
     dbName: process.env.PG_DATABASE,
     dbPort: process.env.PG_PORT,
     apiKey: process.env.API_KEY,
+    jwtSecret: process.env.JWT_SECRET,
 };
 
 module.exports = { config };
