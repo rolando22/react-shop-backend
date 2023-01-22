@@ -1,19 +1,15 @@
 const router = require('express').Router();
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
 
-const { config: { jwtSecret } } = require('../config');
+const AuthService = require('../services/auth.service');
+
+const service = new AuthService();
 
 router.post('/login', 
     passport.authenticate('local', { session: false }), 
     async (req, res, next) => {
         try {
-            const { user } = req;
-            const payload = {
-                sub: user.id,
-                role: user.role,
-            };
-            const token = jwt.sign(payload, jwtSecret);
+            const { user, token } = service.signToken(req.user);
             res.json({
                 data: user,
                 token,
