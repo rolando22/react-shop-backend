@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 
-const UserService = require('../../../services/user.service');
+const UserService = require('./user.service');
 const { config: { jwtSecret } } = require('../config');
 
 const service = new UserService();
